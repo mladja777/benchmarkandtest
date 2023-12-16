@@ -1,0 +1,4 @@
+.cache
+.editorconfig
+build
+All.hpp

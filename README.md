@@ -16,7 +16,6 @@ cd benchmarkandtest
 ```
 chmod +x setup_benchmark.py
 ./setup_benchmark.py
-
 ```
 
 ## Writing Tests and Benchmarks

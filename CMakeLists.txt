@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bins)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bins)
 
+set(SOURCES_FOLDER "src")
 
 project(Practice
         VERSION 1.0
@@ -10,8 +13,8 @@ project(Practice
 
 find_package(benchmark REQUIRED)
 
-file(GLOB ALL_SOURCES "*.cpp")
-file(GLOB ALL_HEADERS "*.hpp")
+file(GLOB ALL_SOURCES "${SOURCES_FOLDER}/*.cpp")
+file(GLOB ALL_HEADERS "${SOURCES_FOLDER}/*.hpp")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -21,7 +24,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
-set(GENERATED_HEADER "All.hpp")
+set(GENERATED_HEADER "${SOURCES_FOLDER}/All.hpp")
 file(WRITE ${GENERATED_HEADER})
 foreach(HEADER ${ALL_HEADERS})
         file(RELATIVE_PATH REL_HEADER ${CMAKE_CURRENT_SOURCE_DIR} ${HEADER})
@@ -30,9 +33,9 @@ foreach(HEADER ${ALL_HEADERS})
         endif()
 endforeach()
 
-add_executable(benchmark "Benchmark.cc" ${ALL_SOURCES})
+add_executable(benchmark "${SOURCES_FOLDER}/Benchmark.cc" ${ALL_SOURCES})
 target_link_libraries(benchmark benchmark::benchmark gtest)
 
-add_executable(test "Test.cc" ${ALL_SOURCES})
+add_executable(test "${SOURCES_FOLDER}/Test.cc" ${ALL_SOURCES})
 target_link_libraries(test benchmark::benchmark gtest_main)
 gtest_discover_tests(test)
